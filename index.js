@@ -53,7 +53,15 @@ const studentSchema = new Schema({
 const Student = model("Student", studentSchema);
 
 // Mentor Routes
-
+app.get("/mentors/all", async (req, res) => {
+  try {
+    const mentor = await Mentor.find();
+    return res.status(200).json(mentor);
+  } catch (error) {
+    console.error("error in getting Mentors", error);
+    return res.status(500).json({ error: "error in getting Mentors" });
+  }
+});
 
 // mentor Add
 app.post("/mentor/add", async (req, res) => {
@@ -119,7 +127,7 @@ app.get("/mentorId/students", async (req, res) => {
 
 // student add
 
-app.post("/student/add", async (req, res) => {
+app.post("/students/add", async (req, res) => {
   try {
     const existStudent = await Student.findOne({ rollno: req.body.rollno });
     if (existStudent) {
@@ -135,7 +143,7 @@ app.post("/student/add", async (req, res) => {
 
 // all students
 
-app.get("/student/all", async (req, res) => {
+app.get("/students/all", async (req, res) => {
   try {
     const students = await Student.find();
     return res.status(200).json(students);
